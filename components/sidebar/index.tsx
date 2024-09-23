@@ -18,8 +18,6 @@ export default function Sidebar() {
   const onAddComponent = () => {
     const newComponent: Component = {
       id: v4(),
-      height: 12,
-      width: 12,
       aspect_ratio: "16:9",
       type: "Rale",
       size: "small",

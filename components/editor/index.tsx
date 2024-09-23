@@ -13,7 +13,7 @@ const Editor = () => {
 
   const renderComponent = (component: CardComponent | RaleComponent) => {
     const components = {
-      Card: <Card aspectRatio={component.aspect_ratio} size={component.size} />,
+      Card: <Card index={1} {...(component as CardComponent)} />,
       Rale: <Rale component={component as RaleComponent} />,
     };
 

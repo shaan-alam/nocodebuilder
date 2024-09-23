@@ -3,9 +3,12 @@ import Image from "next/image";
 import CardTag from "./card-tag";
 import { CardComponent, CardTagPosition } from "@/types";
 
-type CardProps = CardComponent & {
-  index: number;
-};
+type CardProps = Omit<
+  CardComponent & {
+    index: number;
+  },
+  "id"
+>;
 
 export default function Card({
   aspect_ratio,

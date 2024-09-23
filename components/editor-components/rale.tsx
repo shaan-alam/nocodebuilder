@@ -21,7 +21,6 @@ const Rale = ({ component }: RaleProps) => {
     >
       {new Array(component?.count).fill(5).map((cmp, index) => (
         <Card
-          id={cmp.id}
           key={cmp.id}
           index={index + 1}
           aspect_ratio={component?.aspect_ratio as any}
