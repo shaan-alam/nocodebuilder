@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -16,8 +17,21 @@ import {
 } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { Button } from "../ui/button";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  ArrowUpLeft,
+  ArrowUp,
+  ArrowUpRight,
+  ArrowDownLeft,
+  ArrowDown,
+  ArrowDownRight,
+} from "lucide-react";
+import { Component } from "@/types";
 
 export default function PropertiesSidebar() {
+  const [isEnabled, setIsEnabled] = useState(false);
+
   const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
   const [components, setComponents] = useAtom(componentsAtom);
 
@@ -29,7 +43,7 @@ export default function PropertiesSidebar() {
     setSelectedNode(null);
   };
 
-  const mutateOriginalComponent = (key: string, value: string) => {
+  const mutateOriginalComponent = (key: keyof Component, value: string) => {
     const newComponents = components.map((cmp) => {
       if (cmp.id === selectedNode?.id) {
         return {
@@ -121,6 +135,87 @@ export default function PropertiesSidebar() {
               </SelectItem>
             </SelectContent>
           </Select>
+        </div>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="tags-mode"
+              checked={isEnabled}
+              onCheckedChange={(value) => {
+                setIsEnabled(value);
+
+                const originalComponent = components.find(
+                  (cmp) => cmp.id === selectedNode?.id
+                );
+                if (originalComponent) {
+                  originalComponent.tags = true;
+
+                  const newComponents = components.map((cmp) => {
+                    if (cmp.id === selectedNode?.id) {
+                      return originalComponent;
+                    }
+                    return cmp;
+                  });
+
+                  setComponents(newComponents);
+                }
+              }}
+            />
+            <Label htmlFor="tags-mode">Tags</Label>
+          </div>
+          {isEnabled && (
+            <Select
+              value={
+                components.find((cmp) => cmp.id === selectedNode?.id)
+                  ?.tagPosition
+              }
+              onValueChange={(value) => {
+                mutateOriginalComponent("tagPosition", value);
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Position" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="top-left">
+                  <div className="flex items-center">
+                    <ArrowUpLeft className="mr-2 h-4 w-4" />
+                    <span>Top Left</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="top-center">
+                  <div className="flex items-center">
+                    <ArrowUp className="mr-2 h-4 w-4" />
+                    <span>Top Center</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="top-right">
+                  <div className="flex items-center">
+                    <ArrowUpRight className="mr-2 h-4 w-4" />
+                    <span>Top Right</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="bottom-left">
+                  <div className="flex items-center">
+                    <ArrowDownLeft className="mr-2 h-4 w-4" />
+                    <span>Bottom Left</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="bottom-center">
+                  <div className="flex items-center">
+                    <ArrowDown className="mr-2 h-4 w-4" />
+                    <span>Bottom Center</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="bottom-right">
+                  <div className="flex items-center">
+                    <ArrowDownRight className="mr-2 h-4 w-4" />
+                    <span>Bottom Right</span>
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          )}
         </div>
         <div>
           <Button variant="destructive" onClick={onDeleteComponent}>

@@ -3,7 +3,6 @@ import { selectedNodeAtom } from "@/store";
 import { Component, RaleComponent } from "@/types";
 import { useAtom } from "jotai";
 import Card from "./card";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 type RaleProps = {
   component?: RaleComponent;
@@ -22,10 +21,14 @@ const Rale = ({ component }: RaleProps) => {
     >
       {new Array(component?.count).fill(5).map((cmp, index) => (
         <Card
+          id={cmp.id}
           key={cmp.id}
           index={index + 1}
-          aspectRatio={component?.aspect_ratio as string}
+          aspect_ratio={component?.aspect_ratio as any}
           size={component?.size as "small" | "medium" | "large"}
+          tags={component?.tags}
+          tagPosition={component?.tagPosition}
+          type="Card"
         />
       ))}
     </div>
