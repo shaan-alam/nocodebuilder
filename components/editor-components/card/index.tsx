@@ -2,6 +2,7 @@ import { cardSizes } from "@/lib/card";
 import Image from "next/image";
 import CardTag from "./card-tag";
 import { CardComponent, CardTagPosition } from "@/types";
+import CardTitle from "./card-title";
 
 type CardProps = Omit<
   CardComponent & {
@@ -40,6 +41,7 @@ export default function Card({
         alt="Placeholder Image"
         className="object-cover rounded-[6px]"
       />
+      <CardTitle titleStyle="On Card" aspect_ratio="16:9" />
     </div>
   );
 }

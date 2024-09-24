@@ -8,13 +8,16 @@ export type CardTagPosition =
   | "bottom-center"
   | "bottom-right";
 
+export type CardTitlePosition = 'Below Card' | 'On Card';
 export type CardComponent = {
   id: string;
   type: "Card";
-  aspect_ratio: string;
+  aspect_ratio: "16:9" | "2:3";
   size: "small" | "medium" | "large";
   tags?: boolean;
   tagPosition?: CardTagPosition;
+  title?: boolean;
+  titleStyle?: "Below Card" | "On Card"
 };
 
 export type RaleComponent = {

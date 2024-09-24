@@ -148,7 +148,7 @@ export default function PropertiesSidebar() {
                   (cmp) => cmp.id === selectedNode?.id
                 );
                 if (originalComponent) {
-                  originalComponent.tags = true;
+                  originalComponent.tags = value;
 
                   const newComponents = components.map((cmp) => {
                     if (cmp.id === selectedNode?.id) {
