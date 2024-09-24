@@ -8,7 +8,16 @@ export type CardTagPosition =
   | "bottom-center"
   | "bottom-right";
 
-export type CardTitlePosition = 'Below Card' | 'On Card';
+export type CardTitlePosition = "Below Card" | "On Card";
+
+export type CardStyles =
+  | "none"
+  | "style-1"
+  | "style-2"
+  | "style-3"
+  | "style-4"
+  | "style-5";
+
 export type CardComponent = {
   id: string;
   type: "Card";
@@ -16,8 +25,10 @@ export type CardComponent = {
   size: "small" | "medium" | "large";
   tags?: boolean;
   tagPosition?: CardTagPosition;
-  title?: boolean;
-  titleStyle?: "Below Card" | "On Card"
+  title?: string;
+  titleEnabled?: boolean;
+  titleStyle?: "Below Card" | "On Card";
+  cardStyle?: CardStyles;
 };
 
 export type RaleComponent = {
@@ -28,6 +39,9 @@ export type RaleComponent = {
   count: number;
   tags?: boolean;
   tagPosition?: CardTagPosition;
+  titleEnabled?: boolean;
+  titleStyle?: "Below Card" | "On Card";
+  cardStyle?: CardStyles;
 };
 
 export type Component = CardComponent | RaleComponent;

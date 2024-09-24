@@ -1,7 +1,9 @@
+import { cardsData } from "@/data";
 import { cardSizes } from "@/lib/card";
+import { CardComponent, CardStyles, CardTagPosition } from "@/types";
 import Image from "next/image";
+import CardIndex from "./card-index";
 import CardTag from "./card-tag";
-import { CardComponent, CardTagPosition } from "@/types";
 import CardTitle from "./card-title";
 
 type CardProps = Omit<
@@ -9,7 +11,9 @@ type CardProps = Omit<
     index: number;
   },
   "id"
->;
+> & {
+  data?: (typeof cardsData)[0];
+};
 
 export default function Card({
   aspect_ratio,
@@ -17,6 +21,11 @@ export default function Card({
   index,
   tags,
   tagPosition,
+  titleEnabled,
+  titleStyle,
+  data,
+  title,
+  cardStyle,
 }: CardProps) {
   return (
     <div
@@ -32,16 +41,21 @@ export default function Card({
         tags={tags as boolean}
         position={tagPosition as CardTagPosition}
       />
-      <div className="absolute -left-12 bottom-0 flex items-end justify-center h-full px-4">
-        <span className="text-red-600 text-6xl font-bold">{index}</span>
-      </div>
-      <Image
-        src="/placeholder.jpg"
-        fill
-        alt="Placeholder Image"
-        className="object-cover rounded-[6px]"
+      <CardIndex index={index} cardStyle={cardStyle as CardStyles} />
+      {data && (
+        <Image
+          src={data[aspect_ratio]}
+          fill
+          alt="Placeholder Image"
+          className="object-cover rounded-[6px]"
+        />
+      )}
+      <CardTitle
+        title={title as string}
+        titleEnabled={titleEnabled}
+        titleStyle={titleStyle}
+        aspect_ratio={aspect_ratio}
       />
-      <CardTitle titleStyle="On Card" aspect_ratio="16:9" />
     </div>
   );
 }

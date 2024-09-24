@@ -21,7 +21,7 @@ const Editor = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-50 w-full flex justify-between">
+    <div className="h-screen bg-white w-full flex justify-between">
       <div className="w-[80%] p-12">
         {components.map((component) => renderComponent(component))}
       </div>

@@ -34,7 +34,7 @@ export default function Sidebar() {
           Canvas Size
         </h2>
         <div className="flex justify-between">
-          <button className="flex flex-col items-center p-2 rounded-lg hover:bg-accent transition-colors">
+          <button className="flex flex-col items-center p-2 rounded-lg hover:bg-accent transition-colors bg-accent">
             <IconDeviceDesktop className="w-6 h-6 text-foreground" />
             <span className="text-xs mt-1 text-muted-foreground">Web</span>
           </button>

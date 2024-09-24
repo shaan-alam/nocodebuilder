@@ -26,11 +26,14 @@ import {
   ArrowDownLeft,
   ArrowDown,
   ArrowDownRight,
+  Eclipse,
 } from "lucide-react";
 import { Component } from "@/types";
+import { cardStyles } from "@/data";
 
 export default function PropertiesSidebar() {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isTagsEnabled, setTagsEnabled] = useState(false);
+  const [isTitleEnabled, setTitleEnabled] = useState(false);
 
   const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
   const [components, setComponents] = useAtom(componentsAtom);
@@ -43,7 +46,10 @@ export default function PropertiesSidebar() {
     setSelectedNode(null);
   };
 
-  const mutateOriginalComponent = (key: keyof Component, value: string) => {
+  const mutateOriginalComponent = (
+    key: keyof Component,
+    value: string | boolean
+  ) => {
     const newComponents = components.map((cmp) => {
       if (cmp.id === selectedNode?.id) {
         return {
@@ -63,6 +69,37 @@ export default function PropertiesSidebar() {
         <h2 className="text-lg font-semibold text-foreground">Properties</h2>
       </div>
       <div className="flex-1 p-4 space-y-4">
+        <label
+          htmlFor="ratio"
+          className="text-sm font-medium text-foreground flex items-center gap-2"
+        >
+          <Eclipse className="w-4 h-4" />
+          Card Style
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={
+              components.find((cmp) => cmp.id === selectedNode?.id)?.cardStyle
+            }
+            onValueChange={(value) =>
+              mutateOriginalComponent("cardStyle", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Style" />
+            </SelectTrigger>
+            <SelectContent>
+              {cardStyles.map((style) => (
+                <SelectItem value={style.value}>
+                  <div className="flex items-center space-x-3">
+                    <style.icon className="h-4 w-4" />
+                    <span>{style.label}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="space-y-2">
           <label
             htmlFor="ratio"
@@ -140,9 +177,9 @@ export default function PropertiesSidebar() {
           <div className="flex items-center space-x-2">
             <Switch
               id="tags-mode"
-              checked={isEnabled}
+              checked={isTagsEnabled}
               onCheckedChange={(value) => {
-                setIsEnabled(value);
+                setTagsEnabled(value);
 
                 const originalComponent = components.find(
                   (cmp) => cmp.id === selectedNode?.id
@@ -163,7 +200,7 @@ export default function PropertiesSidebar() {
             />
             <Label htmlFor="tags-mode">Tags</Label>
           </div>
-          {isEnabled && (
+          {isTagsEnabled && (
             <Select
               value={
                 components.find((cmp) => cmp.id === selectedNode?.id)
@@ -174,7 +211,7 @@ export default function PropertiesSidebar() {
               }}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Position" />
+                <SelectValue placeholder="Tags Position" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="top-left">
@@ -217,11 +254,44 @@ export default function PropertiesSidebar() {
             </Select>
           )}
         </div>
-        <div>
-          <Button variant="destructive" onClick={onDeleteComponent}>
-            <IconTrash className="w-4 h-4" />
-            Delete
-          </Button>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="title"
+              checked={isTitleEnabled}
+              onCheckedChange={(value) => {
+                setTitleEnabled(value);
+
+                mutateOriginalComponent("titleEnabled", value);
+              }}
+            />
+            <Label htmlFor="title">Title</Label>
+          </div>
+          {isTitleEnabled && (
+            <Select
+              value={
+                components.find((cmp) => cmp.id === selectedNode?.id)
+                  ?.titleStyle
+              }
+              onValueChange={(value) => {
+                mutateOriginalComponent("titleStyle", value);
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Title Position" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="On Card">On Card</SelectItem>
+                <SelectItem value="Below Card">Below Card</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+          <div>
+            <Button variant="destructive" onClick={onDeleteComponent}>
+              <IconTrash className="w-4 h-4" />
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
     </div>
