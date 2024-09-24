@@ -1,6 +1,5 @@
 "use client";
 
-import { generateCards } from "@/lib/card";
 import { componentsAtom } from "@/store";
 import { Component } from "@/types";
 import {
@@ -11,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { v4 } from "uuid";
+import DarkModeSwitch from "../theme-toggler";
 
 export default function Sidebar() {
   const [components, setComponents] = useAtom(componentsAtom);
@@ -49,6 +49,7 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="flex-1 p-4 overflow-y-auto">
+        <DarkModeSwitch />
         <h2 className="text-lg font-semibold text-foreground mb-4">
           Components
         </h2>
