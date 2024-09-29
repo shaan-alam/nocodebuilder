@@ -1,7 +1,7 @@
 "use client";
 
 import { componentsAtom } from "@/store";
-import { Component } from "@/types";
+import { Component, ComponentType } from "@/types";
 import {
   IconCards,
   IconDeviceDesktop,
@@ -15,14 +15,28 @@ import DarkModeSwitch from "../theme-toggler";
 export default function Sidebar() {
   const [components, setComponents] = useAtom(componentsAtom);
 
-  const onAddComponent = () => {
-    const newComponent: Component = {
-      id: v4(),
-      aspect_ratio: "16:9",
-      type: "Rale",
-      size: "small",
-      count: 5,
-    };
+  const onAddComponent = (type: ComponentType) => {
+    let newComponent: Component;
+
+    if (type === "Card") {
+      newComponent = {
+        id: v4(),
+        aspect_ratio: "16:9",
+        type: "Rale",
+        size: "small",
+        count: 5,
+      };
+    } else {
+      newComponent = {
+        id: v4(),
+        type: "Hero",
+        text_position: "Center",
+        card_size: "16:9",
+        variant: "Stretched",
+        label_variant: "H5-14",
+        label_weight: "Regular",
+      };
+    }
 
     setComponents([...components, newComponent]);
   };
@@ -56,12 +70,15 @@ export default function Sidebar() {
         <div className="space-y-3">
           <button
             className="flex items-center gap-2 p-3 w-full bg-secondary rounded-lg shadow-sm hover:bg-secondary/80 transition-colors"
-            onClick={onAddComponent}
+            onClick={() => onAddComponent("Card")}
           >
             <IconCards className="w-6 h-6 text-foreground" />
             <span className="text-sm font-medium text-foreground">Card</span>
           </button>
-          <button className="flex items-center gap-2 p-3 w-full bg-secondary rounded-lg shadow-sm hover:bg-secondary/80 transition-colors">
+          <button
+            className="flex items-center gap-2 p-3 w-full bg-secondary rounded-lg shadow-sm hover:bg-secondary/80 transition-colors"
+            onClick={() => onAddComponent("Hero")}
+          >
             <IconCards className="w-6 h-6 text-foreground" />
             <span className="text-sm font-medium text-foreground">Hero</span>
           </button>
