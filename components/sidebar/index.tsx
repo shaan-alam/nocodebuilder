@@ -1,7 +1,17 @@
 "use client";
 
 import { componentsAtom } from "@/store";
-import { Component, ComponentType } from "@/types";
+import {
+  Component,
+  ComponentType,
+  IconButtonRadius,
+  IconButtonState,
+  IconButtonStyle,
+  IconButtonVariant,
+  IconColor,
+  IconRadius,
+  IconVariant,
+} from "@/types";
 import {
   IconCards,
   IconDeviceDesktop,
@@ -33,8 +43,22 @@ export default function Sidebar() {
         text_position: "Center",
         card_size: "16:9",
         variant: "Stretched",
+        label_text: "6 Language · Comedy · Romance",
         label_variant: "H5-14",
         label_weight: "Regular",
+        buttonSet: "Button + 1 Icon Button",
+        icon_button: {
+          style: IconButtonStyle.Primary,
+          variant: IconButtonVariant.Filled,
+          state: IconButtonState.Default,
+          radius: IconButtonRadius.FullRoundedCorners,
+        },
+        icon: {
+          variant: IconVariant["Icon Only"],
+          color: IconColor.Light,
+          radius: IconRadius["No Radius"],
+          size: 24,
+        },
       };
     }
 

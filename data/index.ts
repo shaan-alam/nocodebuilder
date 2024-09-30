@@ -1564,20 +1564,27 @@ export const heroLabelsSize = {
 };
 
 export const heroLabelsWeight = {
-  "Regular": {
+  Regular: {
     value: "Regular",
     weight: "400",
   },
-  "Medium": {
+  Medium: {
     value: "Medium",
     weight: "500",
   },
-  "SemiBold": {
+  SemiBold: {
     value: "SemiBold",
     weight: "600",
   },
-  "Bold": {
+  Bold: {
     value: "Bold",
     weight: "700",
   },
+};
+
+export const buttonSet = {
+  "Single Button": "Single Button",
+  "2 Buttons": "2 Buttons",
+  "Button + 1 Icon Button": "Button + 1 Icon Button",
+  "Button + 2 Icon Buttons": "Button + 2 Icon Buttons",
 };

@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import RaleProperties from "./properties/rale";
 import HeroProperties from "./properties/hero";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function PropertiesSidebar() {
   const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
@@ -36,15 +37,17 @@ export default function PropertiesSidebar() {
 
   return (
     <div className="w-full h-screen bg-background border-l border-border flex flex-col">
-      <div className="p-4 border-b border-border">
-        <h2 className="text-lg font-semibold text-foreground">Properties</h2>
-      </div>
-      {selectedNode?.type === "Rale" && (
-        <RaleProperties component={selectedNode} />
-      )}
-      {selectedNode?.type === "Hero" && (
-        <HeroProperties component={selectedNode} />
-      )}
+      <ScrollArea className="h-[98%]">
+        <div className="p-4 border-b border-border">
+          <h2 className="text-lg font-semibold text-foreground">Properties</h2>
+        </div>
+        {selectedNode?.type === "Rale" && (
+          <RaleProperties component={selectedNode} />
+        )}
+        {selectedNode?.type === "Hero" && (
+          <HeroProperties component={selectedNode} />
+        )}
+      </ScrollArea>
     </div>
   );
 }

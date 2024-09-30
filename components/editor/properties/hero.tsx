@@ -5,10 +5,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { heroLabelsSize, heroLabelsWeight } from "@/data";
+import { Textarea } from "@/components/ui/textarea";
+import { buttonSet, heroLabelsSize, heroLabelsWeight } from "@/data";
 import { componentsAtom, selectedNodeAtom } from "@/store";
-import { HeroComponent } from "@/types";
+import {
+  HeroComponent,
+  IconButtonRadius,
+  IconButtonStyle,
+  IconButtonVariant,
+  IconColor,
+  IconRadius,
+  IconVariant,
+} from "@/types";
 import { useAtom } from "jotai";
+import set from "lodash/set";
+import { Icon } from "lucide-react";
 
 const HeroProperties = ({ component }: { component: HeroComponent }) => {
   const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
@@ -23,22 +34,22 @@ const HeroProperties = ({ component }: { component: HeroComponent }) => {
   };
 
   const mutateOriginalComponent = (
-    key: keyof HeroComponent,
-    value: string | boolean
+    keyPath: string,
+    value: string | boolean | number
   ) => {
-    const newComponents = components.map((cmp) => {
-      if (cmp.id === selectedNode?.id) {
-        const newComponent = {
-          ...cmp,
-          [key]: value,
-        };
-        setSelectedNode(newComponent);
-        return newComponent;
-      }
-      return cmp;
-    });
+    setComponents((prevState) => {
+      const newComponents = prevState.map((cmp) => {
+        if (cmp.id === selectedNode?.id) {
+          const newComponent = { ...cmp };
+          set(newComponent, keyPath, value);
 
-    setComponents(newComponents);
+          setSelectedNode(newComponent);
+          return newComponent;
+        }
+        return cmp;
+      });
+      return newComponents;
+    });
   };
 
   return (
@@ -91,7 +102,20 @@ const HeroProperties = ({ component }: { component: HeroComponent }) => {
       </div>
       <div>
         <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
-          Label
+          Label Text
+        </label>
+        <div className="space-y-2">
+          <Textarea
+            value={component.label_text}
+            onChange={(e) =>
+              mutateOriginalComponent("label_text", e.target.value)
+            }
+          />
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Label Size
         </label>
         <div className="space-y-2">
           <Select
@@ -131,6 +155,215 @@ const HeroProperties = ({ component }: { component: HeroComponent }) => {
               {Object.keys(heroLabelsWeight).map((label) => (
                 <SelectItem value={label} key={label}>
                   <div className="flex items-center space-x-3">{label}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Button Set
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.buttonSet}
+            onValueChange={(value) =>
+              mutateOriginalComponent("buttonSet", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Style" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.keys(buttonSet).map((label) => (
+                <SelectItem value={label} key={label}>
+                  <div className="flex items-center space-x-3">{label}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Button Style
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon_button?.style}
+            onValueChange={(value) =>
+              mutateOriginalComponent("icon_button.style", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Style" />
+            </SelectTrigger>
+            <SelectContent>
+              {[IconButtonStyle.Primary, IconButtonStyle.Secondary].map(
+                (style) => (
+                  <SelectItem value={style} key={style}>
+                    <div className="flex items-center space-x-3">{style}</div>
+                  </SelectItem>
+                )
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Button Variant
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon_button?.variant}
+            onValueChange={(value) =>
+              mutateOriginalComponent("icon_button.variant", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Variant" />
+            </SelectTrigger>
+            <SelectContent>
+              {[
+                IconButtonVariant.Filled,
+                IconButtonVariant.Outlined,
+                IconButtonVariant.IconOnly,
+              ].map((style) => (
+                <SelectItem value={style} key={style}>
+                  <div className="flex items-center space-x-3">{style}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Button Radius
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon_button?.radius}
+            onValueChange={(value) =>
+              mutateOriginalComponent("icon_button.radius", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Radius" />
+            </SelectTrigger>
+            <SelectContent>
+              {[
+                IconButtonRadius.FullRoundedCorners,
+                IconButtonRadius.RoundedCorner,
+              ].map((style) => (
+                <SelectItem value={style} key={style}>
+                  <div className="flex items-center space-x-3">{style}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Variant
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon?.variant}
+            onValueChange={(value) =>
+              mutateOriginalComponent("icon.variant", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Variant" />
+            </SelectTrigger>
+            <SelectContent>
+              {[IconVariant["Icon Only"], IconVariant.Outline].map((style) => (
+                <SelectItem value={style} key={style}>
+                  <div className="flex items-center space-x-3">{style}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Radius
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon?.radius}
+            onValueChange={(value) => {
+              if (value !== 'No Radius') {
+                mutateOriginalComponent("icon.variant", IconVariant.Outline);
+              }
+              mutateOriginalComponent("icon.radius", value);
+            }}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Radius" />
+            </SelectTrigger>
+            <SelectContent>
+              {[
+                IconRadius["Full Rounded Corners"],
+                IconRadius["No Radius"],
+                IconRadius["Rounded Corner"],
+                IconRadius["Sharp Corners"],
+              ].map((style) => (
+                <SelectItem value={style} key={style}>
+                  <div className="flex items-center space-x-3">{style}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Color
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon?.color}
+            onValueChange={(value) =>
+              mutateOriginalComponent("icon.color", value)
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Color" />
+            </SelectTrigger>
+            <SelectContent>
+              {[IconColor.Light, IconColor.Dark].map((style) => (
+                <SelectItem value={style} key={style}>
+                  <div className="flex items-center space-x-3">{style}</div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div>
+        <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-1">
+          Icon Size
+        </label>
+        <div className="space-y-2">
+          <Select
+            value={component.icon?.size.toString()}
+            onValueChange={(value) =>
+              mutateOriginalComponent("icon.size", parseInt(value))
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Size" />
+            </SelectTrigger>
+            <SelectContent>
+              {[16, 20, 24, 32, 40, 48].map((style) => (
+                <SelectItem value={style.toString()} key={style}>
+                  <div className="flex items-center space-x-3">{style}</div>
                 </SelectItem>
               ))}
             </SelectContent>

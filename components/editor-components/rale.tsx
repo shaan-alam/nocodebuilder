@@ -21,7 +21,7 @@ const Rale = ({ component }: RaleProps) => {
   );
 
   return (
-    <div className="my-4">
+    <div className="my-4 p-4">
       <h1 className="font-bold text-xl">
         {raleTitles[Math.floor(generateRandomeNo)]}
       </h1>

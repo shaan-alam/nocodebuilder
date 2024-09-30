@@ -28,7 +28,7 @@ const Editor = () => {
   return (
     <div className="h-screen bg-background w-full flex justify-between">
       <div className="w-[1366px] p-12 mx-auto">
-        <ScrollArea className="h-[98%]">
+        <ScrollArea className="h-[98%] bg-black/80">
           <div className="border border-border shadow-sm rounded-md">
             {components.map((component) => renderComponent(component))}
           </div>

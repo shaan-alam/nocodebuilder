@@ -1,20 +1,21 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { cardsData, heroLabelsSize, heroLabelsWeight } from "@/data";
 import { cn } from "@/lib/utils";
 import { selectedNodeAtom } from "@/store";
 import {
+  ButtonSet,
   Component,
   HeroComponent,
   HeroLabelVariant,
   HeroLabelWeight,
+  IconButtonStyle,
 } from "@/types";
-import { IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Buttons from "./Buttons";
 
 type HeroProps = {
-  component?: HeroComponent;
+  component: HeroComponent;
 };
 
 const Hero = ({ component }: HeroProps) => {
@@ -65,18 +66,14 @@ const Hero = ({ component }: HeroProps) => {
                     .weight,
               }}
             >
-              6 Language · Comedy · Romance
+              {component?.label_text}
             </p>
           </div>
-          <div className="flex space-x-3 items-center">
-            <Button className="flex space-x-2 bg-[#FF0000] hover:bg-[#FF0000]/90 text-white rounded-md p-8">
-              <IconPlayerPlay className="w-6 h-6" />
-              <span className="text-base font-medium">Play Now</span>
-            </Button>
-            <Button className="bg-[#606060] hover:bg-[#606060]/90 p-8">
-              <IconPlus className="w-6 h-6" />
-            </Button>
-          </div>
+          <Buttons
+            buttonSet={component?.buttonSet as ButtonSet}
+            icon_button={component?.icon_button}
+            icon={component?.icon}
+          />
         </div>
       </div>
     </div>

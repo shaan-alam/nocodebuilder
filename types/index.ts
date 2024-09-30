@@ -1,3 +1,5 @@
+import { Icon } from "@tabler/icons-react";
+
 export type ComponentType = "Card" | "Hero";
 
 export type CardTagPosition =
@@ -54,6 +56,52 @@ export type HeroLabelVariant =
   | "H5-14"
   | "H6-12";
 export type HeroLabelWeight = "Regular" | "Medium" | "SemiBold" | "Bold";
+export type ButtonSet =
+  | "Single Button"
+  | "2 Buttons"
+  | "Button + 1 Icon Button"
+  | "Button + 2 Icon Buttons";
+
+export enum IconButtonStyle {
+  Primary = "Primary",
+  Secondary = "Secondary",
+}
+
+export enum IconButtonVariant {
+  Filled = "Filled",
+  Outlined = "Outlined",
+  IconOnly = "Icon Only",
+}
+
+export enum IconButtonState {
+  Default = "Default",
+  Disabled = "Disabled",
+  Hover = "Hover",
+  Pressed = "Pressed",
+  Focus = "Focus",
+}
+
+export enum IconButtonRadius {
+  FullRoundedCorners = "Full Rounded Corners",
+  RoundedCorner = "Rounded Corner",
+}
+
+export enum IconVariant {
+  "Icon Only" = "Icon Only",
+  "Outline" = "Outline",
+}
+
+export enum IconRadius {
+  "No Radius" = "No Radius",
+  "Sharp Corners" = "Sharp Corners",
+  "Full Rounded Corners" = "Full Rounded Corners",
+  "Rounded Corner" = "Rounded Corner",
+}
+
+export enum IconColor {
+  "Light" = "Light",
+  "Dark" = "Dark",
+}
 
 export type HeroComponent = {
   id: string;
@@ -61,8 +109,22 @@ export type HeroComponent = {
   variant: HeroVariantType;
   card_size: HeroCardSize;
   text_position: "Left" | "Center" | "Right";
+  label_text: string;
   label_variant: HeroLabelVariant;
   label_weight: HeroLabelWeight;
+  buttonSet: ButtonSet;
+  icon_button: {
+    style: IconButtonStyle;
+    variant: IconButtonVariant;
+    state: IconButtonState;
+    radius: IconButtonRadius;
+  };
+  icon: {
+    variant: IconVariant;
+    radius: IconRadius;
+    color: IconColor;
+    size: 16 | 20 | 24 | 32 | 40 | 48;
+  };
 };
 
 export type Component = CardComponent | RaleComponent | HeroComponent;
